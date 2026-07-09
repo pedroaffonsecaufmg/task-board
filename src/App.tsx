@@ -6,13 +6,18 @@ import ServiceCard from "./components/ServiceCard";
 
 export default function App() {
   const [lista, setLista] = useState<OrdemDeServico[]>([]);
+  function adicionarOS(novaOs : OrdemDeServico){
+    setLista([...lista, novaOs]);
+  }
   return (
-    <div> 
+    <div className = "min-h-screen bg-gray-200"> 
       <Header />
-      <NewServiceForm />
+      <NewServiceForm onSubmit={adicionarOS} />
+      <div className="flex flex-wrap gap-3 p-4">
       {lista.map((os)=> (
         <ServiceCard key={os.id} {...os}/>
       ))}
+      </div>
     </div>
 
   )
