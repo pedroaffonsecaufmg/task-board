@@ -25,7 +25,7 @@ function NewServiceForm({onSubmit}:Props){
         <input className="border rounded p-2 flex-1" type='text' placeholder="Nome do cliente" value={nomeCliente} onChange={(e)=>setNomeCliente(e.target.value)}/>
         <input className="border rounded p-2 flex-1" type='text' placeholder="Dispositivo do cliente" value={modelo} onChange={(e)=> setModelo(e.target.value)}/>
         <input className="border rounded p-2 flex-1" type='text' placeholder="Problema do dispositivo" value={defeito} onChange={(e)=>setDefeito(e.target.value)}/>
-        <button className="border rounded bg-blue-500 font-bold text-white" onClick={handleSubmit}>Enviar</button>
+        <button className="border border-black rounded p-2 bg-blue-500 font-bold text-white" onClick={handleSubmit}>Enviar</button>
     </div>
  );
 }
