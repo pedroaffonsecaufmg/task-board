@@ -1,7 +1,7 @@
 import type { ServiceOrder } from "../types/ServiceOrder";
 
 interface Props extends ServiceOrder {
-  onDelete: (id: number) => void;
+  onDelete?: (id: number) => void;
 }
 
 function ServiceCard({ id, client_id, device, issue, status, onDelete }: Props) {
@@ -24,12 +24,14 @@ function ServiceCard({ id, client_id, device, issue, status, onDelete }: Props) 
       <p>{id}</p>
       <p>{device}</p>
       <p>{issue}</p>
-      <button
-        className="bg-red-500 text-white rounded px-2 py-1 mt-2"
-        onClick={() => onDelete(id)}
-      >
-        Remover
-      </button>
+      {onDelete && (
+        <button
+          className="bg-red-500 text-white rounded px-2 py-1 mt-2"
+          onClick={() => onDelete(id)}
+        >
+          Remover
+        </button>
+      )}
     </div>
   );
 }
