@@ -1,39 +1,44 @@
+import { useState, useEffect } from "react";
 import type { ServiceOrder } from "../types/ServiceOrder";
+import ServiceCard from "../components/ServiceCard";
+import api from "../services/api";
 
-interface Props extends ServiceOrder {
-  onDelete?: (id: number) => void;
-}
+function Dashboard() {
+  const [serviceOrders, setServiceOrders] = useState<ServiceOrder[]>([]);
+  const [loading, setLoading] = useState(true);
 
-function ServiceCard({ id, client_id, device, issue, status, onDelete }: Props) {
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await api.get<ServiceOrder[]>("/service-orders");
+        setServiceOrders(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar ordens de serviço:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <p className="p-4">Carregando...</p>;
+  }
+
   return (
-    <div className="bg-gray-100 rounded shadow p-4 m-4 w-56">
-      <p>Cliente #{client_id}</p>
-      <p>
-        <span
-          className={
-            status === "open"
-              ? "bg-green-500"
-              : status === "done"
-              ? "bg-gray-500"
-              : "bg-red-500"
-          }
-        >
-          {status}
-        </span>
-      </p>
-      <p>{id}</p>
-      <p>{device}</p>
-      <p>{issue}</p>
-      {onDelete && (
-        <button
-          className="bg-red-500 text-white rounded px-2 py-1 mt-2"
-          onClick={() => onDelete(id)}
-        >
-          Remover
-        </button>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
+      {serviceOrders.length === 0 ? (
+        <p>Nenhuma ordem de serviço cadastrada ainda.</p>
+      ) : (
+        <div className="flex flex-wrap gap-3">
+          {serviceOrders.map((os) => (
+            <ServiceCard key={os.id} {...os} />
+          ))}
+        </div>
       )}
     </div>
   );
 }
 
-export default ServiceCard;
+export default Dashboard;
