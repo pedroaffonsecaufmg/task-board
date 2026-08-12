@@ -25,12 +25,12 @@ function ServiceCard({ id, client_id, device, issue, status, onDelete }: Props) 
       <p>{device}</p>
       <p>{issue}</p>
       {onDelete && (
-        <button
-          className="bg-red-500 text-white rounded px-2 py-1 mt-2"
-          onClick={() => onDelete(id)}
-        >
-          Remover
-        </button>
+      <button
+        className="bg-red-500 text-white rounded px-2 py-1 mt-2"
+        onClick={() => onDelete(id)}
+      >
+        Remover
+      </button>
       )}
     </div>
   );
