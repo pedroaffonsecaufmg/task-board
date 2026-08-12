@@ -1,10 +1,22 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
   headers: {
-    Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+    "Content-Type": "application/json",
   },
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const isAuthCheck = error.config?.url?.includes("/auth/me");
+    if (error.response?.status === 401 && !isAuthCheck) {
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;
